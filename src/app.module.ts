@@ -3,9 +3,11 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PersonModule } from './person/person.module';
 import { OtherModule } from './other/other.module';
+import { GlobalAaaModule } from './global-aaa/global-aaa.module';
+import { GlobalBbbModule } from './global-bbb/global-bbb.module';
 
 @Module({
-  imports: [PersonModule, OtherModule],
+  imports: [PersonModule, OtherModule, GlobalAaaModule, GlobalBbbModule],
   controllers: [AppController],
   // providers: [AppService],
   providers: [
@@ -23,7 +25,7 @@ import { OtherModule } from './other/other.module';
       },
     },
     // useFactory 用来动态创建一个对象
-    {
+    /*{
       provide: 'person2',
       // 支持异步
       useFactory: async (
@@ -37,7 +39,7 @@ import { OtherModule } from './other/other.module';
           desc: appService.getHello(),
         };
       },
-    },
+    },*/
   ],
 })
 export class AppModule {}
