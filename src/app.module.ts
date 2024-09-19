@@ -7,6 +7,37 @@ import { OtherModule } from './other/other.module';
 @Module({
   imports: [PersonModule, OtherModule],
   controllers: [AppController],
-  providers: [AppService],
+  // providers: [AppService],
+  providers: [
+    // 指定class
+    {
+      provide: AppService,
+      useClass: AppService,
+    },
+    // 指定一个值
+    {
+      provide: 'APP_NAME',
+      useValue: {
+        name: 'Nestjs',
+        age: 20,
+      },
+    },
+    // useFactory 用来动态创建一个对象
+    {
+      provide: 'person2',
+      // 支持异步
+      useFactory: async (
+        person: { name: string; age: number },
+        appService: AppService,
+      ) => {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        return {
+          name: person.name,
+          age: person.age,
+          desc: appService.getHello(),
+        };
+      },
+    },
+  ],
 })
 export class AppModule {}
