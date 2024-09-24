@@ -10,7 +10,7 @@ import { ModuleRef } from '@nestjs/core';
 import { GlobalAaaService } from './global-aaa.service';
 import { GlobalAaaController } from './global-aaa.controller';
 
-@Global() // 标记为全局模块
+@Global() // 标记为全局模块 其exports的provide就可以在全局使用了，而不需要手动imports
 @Module({
   controllers: [GlobalAaaController],
   providers: [GlobalAaaService],

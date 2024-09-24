@@ -1,13 +1,25 @@
-import { Module } from '@nestjs/common';
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PersonModule } from './person/person.module';
 import { OtherModule } from './other/other.module';
 import { GlobalAaaModule } from './global-aaa/global-aaa.module';
 import { GlobalBbbModule } from './global-bbb/global-bbb.module';
+import { AopModule } from './aop/aop.module';
+import { LogMiddleware } from './log.middleware';
+import { LoginGuard } from './login.guard';
+import { APP_GUARD } from '@nestjs/core';
+import { AllDecoratorModule } from './all-decorator/all-decorator.module';
 
 @Module({
-  imports: [PersonModule, OtherModule, GlobalAaaModule, GlobalBbbModule],
+  imports: [
+    PersonModule,
+    OtherModule,
+    GlobalAaaModule,
+    GlobalBbbModule,
+    AopModule,
+    AllDecoratorModule,
+  ],
   controllers: [AppController],
   // providers: [AppService],
   providers: [
@@ -40,6 +52,15 @@ import { GlobalBbbModule } from './global-bbb/global-bbb.module';
         };
       },
     },*/
+    // 全局声明Guard
+    {
+      provide: APP_GUARD,
+      useClass: LoginGuard,
+    },
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LogMiddleware).forRoutes('*');
+  }
+}
