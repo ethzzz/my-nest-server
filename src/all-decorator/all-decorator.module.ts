@@ -8,6 +8,21 @@ import { OtherService } from '../other/other.service';
 @Module({
   imports: [],
   controllers: [AllDecoratorController],
-  providers: [AllDecoratorService, AppService, OtherService],
+  // providers: [AllDecoratorService, AppService, OtherService], // 这种是简写语法
+  providers: [
+    {
+      provide: AllDecoratorService,
+      useClass: AllDecoratorService,
+    },
+    {
+      provide: AppService,
+      useClass: AppService,
+    },
+    {
+      provide: OtherService,
+      useClass: OtherService,
+    },
+  ],
+  exports: [AllDecoratorService, AppService, OtherService], // 导出当前模块的providers，供其他模块使用
 })
 export class AllDecoratorModule {}

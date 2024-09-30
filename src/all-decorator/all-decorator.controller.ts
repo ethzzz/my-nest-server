@@ -11,6 +11,7 @@ import {
   Inject,
   Ip,
   Optional,
+  Param,
   Post,
   Query,
   Redirect,
@@ -31,23 +32,29 @@ import { LoginGuard } from '../login.guard';
 import { TimeInterceptor } from '../time.interceptor';
 import { ValidatePipe } from '../validate.pipe';
 import { AppService } from '../app.service';
+import { OtherService } from '../other/other.service';
 import { Reflector } from '@nestjs/core';
 import { Request, Response } from 'express';
 
-// @Controller('all-decorator')
-@Controller({ host: ':host.0.0.1', path: 'all-decorator' })
+@Controller('all-decorator')
+// @Controller({ host: ':host.0.0.1', path: 'all-decorator' })
 export class AllDecoratorController {
-  // constructor(@Optional() private readonly allDecoratorService: AllDecoratorService) {}
+  constructor(
+    @Optional() private readonly allDecoratorService: AllDecoratorService,
+  ) {}
 
   // 通过修饰器注入service
   // 还可以通过 @Optional装饰器来表明这是可选的，不在module中provides中提供的
   @Optional()
   @Inject()
-  private readonly allDecoratorService: AllDecoratorService;
-  // private readonly appService: AppService;
+  // private readonly allDecoratorService: AllDecoratorService;
+  private readonly appService: AppService;
 
   @Inject(Reflector)
   private readonly reflector: Reflector;
+
+  @Inject(OtherService)
+  private readonly httpClient: OtherService;
 
   // @Get(':name')
   // getHello(@Query() name: string): string {
@@ -58,6 +65,15 @@ export class AllDecoratorController {
   add(@Body() user: User): void {
     // console.log(user);
     return this.allDecoratorService.addUser(user);
+  }
+
+  @Post('add/:name')
+  addName(
+    @Body() user: { name: string; age: number },
+    @Param('name') name: string,
+  ): void {
+    console.log(user);
+    console.log(name);
   }
 
   @Post('add2')
@@ -108,6 +124,7 @@ export class AllDecoratorController {
   }
 
   // 直接注入Req 获取Req
+  // 作用: 获取请求对象
   @Get('req')
   getReq(@Req() req: Request): void {
     console.log('req.hostname', req.hostname);
@@ -117,6 +134,7 @@ export class AllDecoratorController {
   }
 
   // 注入Res
+  // 作用 特定于库的方法 用来手动回传相应内容
   // 特殊 需要手动调用res.send()才能正确返回内容
   // 如果不调用res.send()，则需要设置passthrough告诉nest  @Res({ passthrough: true })
   @Get('res')
@@ -133,6 +151,7 @@ export class AllDecoratorController {
 
   // 修改res header
   // @Header装饰器
+  // 作用: 自定义返回response的header
   @Get('setResHeader')
   @Header('Auth', 'xxx')
   @Header('AuthExpress', '2000')
@@ -143,10 +162,11 @@ export class AllDecoratorController {
   // @Redirect装饰器 指定路由重定向url
   // 或者在返回值的地方设置url
   @Get('redirect')
-  // @Redirect('https://www.baidu.com', 301)
-  @Redirect()
+  @Redirect('https://www.baidu.com', 301) // 静态重定向
+  // @Redirect()
   redirect(): any {
-    // return 'redirect';
+    // return 'redirect';]
+    // 动态重定向
     return {
       url: 'https://www.baidu.com',
       statusCode: 302,
@@ -154,6 +174,8 @@ export class AllDecoratorController {
   }
 
   // 模板渲染 hbs
+  // @Render装饰器
+  // 作用: 指定模板文件
   @Get('hbs')
   @Render('home') //指定模板文件
   hbs(): any {

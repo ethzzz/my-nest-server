@@ -1,4 +1,9 @@
-import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PersonModule } from './person/person.module';
@@ -10,6 +15,7 @@ import { LogMiddleware } from './log.middleware';
 import { LoginGuard } from './login.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { AllDecoratorModule } from './all-decorator/all-decorator.module';
+import { MiddlewareModule } from './middleware/middleware.module';
 
 @Module({
   imports: [
@@ -19,6 +25,7 @@ import { AllDecoratorModule } from './all-decorator/all-decorator.module';
     GlobalBbbModule,
     AopModule,
     AllDecoratorModule,
+    MiddlewareModule,
   ],
   controllers: [AppController],
   // providers: [AppService],
@@ -61,6 +68,8 @@ import { AllDecoratorModule } from './all-decorator/all-decorator.module';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LogMiddleware).forRoutes('*');
+    consumer
+      .apply(LogMiddleware)
+      .forRoutes({ method: RequestMethod.ALL, path: '*' });
   }
 }
