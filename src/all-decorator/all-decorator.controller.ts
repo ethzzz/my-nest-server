@@ -35,6 +35,7 @@ import { AppService } from '../app.service';
 import { OtherService } from '../other/other.service';
 import { Reflector } from '@nestjs/core';
 import { Request, Response } from 'express';
+import { MergeDecorator } from "../custom-decorator.decorator";
 
 @Controller('all-decorator')
 // @Controller({ host: ':host.0.0.1', path: 'all-decorator' })
@@ -83,6 +84,14 @@ export class AllDecoratorController {
   @UsePipes(ValidatePipe)
   add2(@Body() user: User): void {
     throw new HttpException('error', HttpStatus.BAD_REQUEST);
+  }
+
+  // 合并装饰器
+  // 等同于如上所有装饰器
+  @MergeDecorator('add3')
+  add3(@Body() user: User): void {
+    // throw new HttpException('error', HttpStatus.BAD_REQUEST);
+    console.log('user', user);
   }
 
   // SetMetadata

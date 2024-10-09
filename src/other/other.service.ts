@@ -6,4 +6,8 @@ export class OtherService {
   xxx() {
     return 'xxx';
   }
+
+  findOne(id: string) {
+    return 'find id: ' + id;
+  }
 }
