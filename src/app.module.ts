@@ -16,6 +16,8 @@ import { LoginGuard } from './login.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { AllDecoratorModule } from './all-decorator/all-decorator.module';
 import { MiddlewareModule } from './middleware/middleware.module';
+import { ConfigModule } from '@nestjs/config';
+import { UploadModule } from './upload/upload.module';
 
 @Module({
   imports: [
@@ -26,6 +28,14 @@ import { MiddlewareModule } from './middleware/middleware.module';
     AopModule,
     AllDecoratorModule,
     MiddlewareModule,
+    ConfigModule.forRoot({
+      // 加载配置文件
+      isGlobal: true, // 设置为全局模块
+      envFilePath: ['.env', `.env.${process.env.NODE_ENV || 'dev'}`], // 指定环境变量文件路径
+      ignoreEnvFile: false, // 是否忽略.env文件
+      cache: true, // 缓存配置
+    }),
+    UploadModule,
   ],
   controllers: [AppController],
   // providers: [AppService],
