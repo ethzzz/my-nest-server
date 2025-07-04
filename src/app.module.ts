@@ -59,7 +59,7 @@ import { MiddlewareModule } from './middleware/middleware.module';
         };
       },
     },*/
-    // 全局声明Guard
+    // 全局方式注入Guard
     {
       provide: APP_GUARD,
       useClass: LoginGuard,

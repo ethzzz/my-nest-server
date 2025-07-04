@@ -3,7 +3,6 @@ import {
   ExecutionContext,
   Inject,
   Injectable,
-  Optional,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { AppService } from './app.service';
@@ -18,7 +17,7 @@ export class LoginGuard implements CanActivate {
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     // console.log(this.appService);
-    console.log('login check', this.appService.getHello());
+    console.log('login check', this.appService.getHello(), context);
     return true;
   }
 }

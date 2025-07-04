@@ -1,7 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
-import { LoginGuard } from './login.guard';
 import * as session from 'express-session';
 import { join } from 'node:path';
 
@@ -30,9 +29,6 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, '..', 'public'));
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
   app.setViewEngine('hbs');
-
-  // 全局路由守卫  不在IOC容器中管理
-  // app.useGlobalGuards(new LoginGuard());
 
   await app.listen(3000);
   /*setTimeout(() => {

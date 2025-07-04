@@ -35,13 +35,6 @@ export class PersonController {
     return this.personService.findOne(+id);
   }
 
-  // Content-type: application/x-www-form-urlencoded
-  // post 请求  form urlencoded
-  @Post()
-  create(@Body() createPersonDto: CreatePersonDto) {
-    return this.personService.create(createPersonDto);
-  }
-
   // post 请求
   // json
   @Post()
