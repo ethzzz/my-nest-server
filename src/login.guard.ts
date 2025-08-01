@@ -13,11 +13,7 @@ export class LoginGuard implements CanActivate {
   @Inject(AppService)
   private appService: AppService;
 
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
-    // console.log(this.appService);
-    console.log('login check', this.appService.getHello(), context);
+  canActivate(): boolean | Promise<boolean> | Observable<boolean> {
     return true;
   }
 }
