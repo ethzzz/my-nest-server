@@ -1,0 +1,33 @@
+name: Deploy to Tencent Cloud
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to server via SSH
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_KEY }}
+          port: 22
+          script: |
+            if [ ! -d "/home/www/my-nest-server/.git" ]; then
+              git clone https://github.com/你的用户名/你的仓库名.git /home/www/my-nest-server
+            else
+              cd /home/www/my-nest-server
+              git pull
+            fi
+            cd /home/www/my-nest-server
+            git pull
+            npm install
+            npm run build
+            pm2 restart your-app-name
