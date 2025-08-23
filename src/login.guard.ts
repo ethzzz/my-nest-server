@@ -17,7 +17,7 @@ export class LoginGuard implements CanActivate {
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     // console.log(this.appService);
-    console.log('login check', this.appService.getHello(), context);
+    console.log('login check', this.appService.getHello());
     return true;
   }
 }
