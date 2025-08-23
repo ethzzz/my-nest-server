@@ -21,7 +21,7 @@ jobs:
           port: 22
           script: |
             if [ ! -d "/home/www/my-nest-server/.git" ]; then
-              git clone https://github.com/你的用户名/你的仓库名.git /home/www/my-nest-server
+              git clone https://github.com/ethzzz/my-nest-server.git /home/www/my-nest-server
             else
               cd /home/www/my-nest-server
               git pull
@@ -30,4 +30,4 @@ jobs:
             git pull
             npm install
             npm run build
-            pm2 restart your-app-name
+            pm2 restart my-nest-server
