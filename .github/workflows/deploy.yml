@@ -30,4 +30,4 @@ jobs:
             git pull
             npm install
             npm run build
-            pm2 restart my-nest-server
+            pm2 start dist/main.js --name my-nest-server || pm2 restart my-nest-server
