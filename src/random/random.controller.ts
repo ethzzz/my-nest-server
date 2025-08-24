@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { RandomService } from './random.service';
 
 interface DataType {
@@ -15,9 +15,7 @@ export class RandomController {
     constructor(private readonly randomService: RandomService) { }
 
     @Get()
-
-    getData(params: DataType): ReturnType {
-        const { type, length } = params;
+    getData(@Query('type') type: string, @Query('length') length?: number): ReturnType {
         let data: number | string | Array<any> | Object;
 
         switch (type) {

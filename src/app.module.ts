@@ -18,11 +18,13 @@ import { AllDecoratorModule } from './all-decorator/all-decorator.module';
 import { MiddlewareModule } from './middleware/middleware.module';
 import { ConfigModule } from '@nestjs/config';
 import { UploadModule } from './upload/upload.module';
+import { RandomModule } from './random/random.module';
 
 @Module({
   imports: [
     PersonModule,
     OtherModule,
+    RandomModule,
     GlobalAaaModule,
     GlobalBbbModule,
     AopModule,

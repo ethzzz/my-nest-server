@@ -6,6 +6,8 @@ import { join } from 'node:path';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  // 端口区分dev和prod环境
+  const port = 
 
   // 全局中间件
   app.use((req: Request, res: Response, next) => {
