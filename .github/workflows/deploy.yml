@@ -19,7 +19,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_KEY }}
           port: 22
-          script: |、
+          script: |
             source ~/.bash_profile || source ~/.profile || source ~/.bashrc
             if [ ! -d "/home/www/my-nest-server/.git" ]; then
               git clone https://github.com/ethzzz/my-nest-server.git /home/www/my-nest-server
