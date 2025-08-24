@@ -19,7 +19,8 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_KEY }}
           port: 22
-          script: |
+          script: |、
+            source ~/.bash_profile || source ~/.profile || source ~/.bashrc
             if [ ! -d "/home/www/my-nest-server/.git" ]; then
               git clone https://github.com/ethzzz/my-nest-server.git /home/www/my-nest-server
             else
@@ -28,6 +29,6 @@ jobs:
             fi
             cd /home/www/my-nest-server
             git pull
-            npm install
-            npm run build
+            pnpm install
+            pnpm run build
             pm2 start dist/main.js --name my-nest-server || pm2 restart my-nest-server
